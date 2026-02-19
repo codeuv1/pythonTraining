@@ -21,7 +21,6 @@ def select_supplier(order_qty, suppliers):
 
     return min(eligible_suppliers, key=lambda s: s["unit_cost"])
 
-
 # Cost & Approval
 def calculate_cost(order_qty, unit_cost):
     return order_qty * unit_cost
@@ -45,6 +44,12 @@ def run_pipeline(
         return {
             "order_required": False,
             "reason": "Sufficient warehouse stock",
+            "forecasted_demand": forecast,
+
+            "order_quantity": order_qty,
+            "supplier": None,
+            "total_cost": 0,
+            "approved": False,
         }
 
     supplier = select_supplier(order_qty, suppliers)
@@ -63,10 +68,10 @@ def run_pipeline(
 
 
 def main():
-    demand_history = [120, 100, 500, 450, 380]
+    demand_history = [120, 100, 500, 450, 380,10,18,56]
     warehouse_stock = 200
     safety_stock = 50
-    company_budget = 500
+    company_budget = 5000
 
     suppliers = [
         {"name": "Supplier_A", "unit_cost": 10, "capacity": 300},
@@ -81,15 +86,15 @@ def main():
         company_budget=company_budget,
     )
 
-    print(result['forecasted_demand'])
     if not result["order_required"]:
         print("No order required:", result["reason"])
         return
-
-    print(
-        f"Order {result['order_quantity']} units from {result['supplier']} | "
-        f"Cost: {result['total_cost']} | Approved: {result['approved']}"
-    )
+    else:
+        print(result['forecasted_demand'])
+        print(
+            f"Order {result['order_quantity']} units from {result['supplier']} | "
+            f"Cost: {result['total_cost']} | Approved: {result['approved']}"
+        )
 
 
 if __name__ == "__main__":

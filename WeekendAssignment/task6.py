@@ -1,6 +1,4 @@
 from collections import defaultdict
-
-
 def group_anagrams(words):
     groups = []
     for w in words:

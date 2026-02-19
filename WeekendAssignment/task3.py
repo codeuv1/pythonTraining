@@ -4,7 +4,6 @@ nums = [1, 2, 3, -2, 5]
 k = 3
 def subarray_sum(nums,k):
     count = 0
-
     for i in range(len(nums)):
         s = 0
         for j in range(i, len(nums)):
